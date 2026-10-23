@@ -41,6 +41,23 @@ Setelah menyelesaikan seluruh tugas, siswa mampu:
 
 > Tambahan: **Jurnal mingguan** ([template](jurnal/TEMPLATE-jurnal-mingguan.md)) tidak masuk bobot di atas, tetapi menjadi syarat kelengkapan nilai.
 
+## 🤝 Interaksi & Absensi
+
+Agar guru dapat memantau siswa yang sedang PKL, tersedia fitur berikut (semua lewat GitHub):
+
+| Fitur | Cara | Keterangan |
+|--|--|--|
+| 📝 **Absensi mingguan** | Issues → *Absensi Mingguan* | Wajib 1x/minggu, batas Minggu 23.59 WIB. Dibalas bot & diverifikasi guru. |
+| 📊 **Rekap absensi otomatis** | [REKAP-ABSENSI.md](REKAP-ABSENSI.md) | Tabel kehadiran per siswa per minggu + persentase. |
+| ❓ **Tanya guru** | Issues → *Tanya Guru / Lapor Kendala* | Dijawab maks. 1x24 jam hari kerja. |
+| 💬 **Diskusi antar siswa** | Tab *Discussions* | Berbagi tips & saling membantu. |
+| 🔍 **Peer review** | [interaksi/PEER-REVIEW.md](interaksi/PEER-REVIEW.md) | Minimal 4 review PR teman. |
+| 📅 **Konsultasi online** | [interaksi/JADWAL-KONSULTASI.md](interaksi/JADWAL-KONSULTASI.md) | 2 minggu sekali. |
+
+Panduan lengkap: [Siswa](absensi/PANDUAN-SISWA.md) · [Guru](PANDUAN-GURU.md)
+
+**Nilai Akhir = 90% nilai tugas + 10% keaktifan** (absensi, tanya-jawab, peer review, konsultasi).
+
 ## 📤 Cara Mengumpulkan Tugas
 
 1. **Fork** repositori ini ke akun GitHub kamu.

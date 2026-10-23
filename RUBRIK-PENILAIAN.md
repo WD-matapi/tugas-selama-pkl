@@ -27,3 +27,14 @@ Berlaku untuk setiap tugas (skor 0–100), lalu dikalikan bobot pada README.
 | Kualitas kode & struktur | 15% |
 | Tampilan & UX | 10% |
 | Dokumentasi & presentasi/demo | 15% |
+
+## Nilai Akhir
+**Nilai Akhir = 90% × (nilai tugas berbobot) + 10% × nilai keaktifan**
+
+### Nilai Keaktifan (0–100)
+| Komponen | Bobot | Ukuran |
+|--|:--:|--|
+| Kehadiran mingguan terverifikasi | 50% | % hadir di `REKAP-ABSENSI.md` |
+| Bertanya / menjawab (Issue & Discussions) | 20% | ≥ 6 interaksi = 100 |
+| Peer review PR teman | 20% | ≥ 4 review = 100 |
+| Hadir sesi konsultasi online | 10% | % kehadiran sesi |
