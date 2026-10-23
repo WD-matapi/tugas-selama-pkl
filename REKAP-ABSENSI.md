@@ -1,5 +1,12 @@
 # 📊 Rekap Absensi Tugas Laravel PKL
 
-_Berkas ini dibuat otomatis oleh GitHub Actions (workflow **Rekap Absensi**) setelah siswa mengirim absensi._
+_Diperbarui otomatis: 23 Oktober 2026_
 
-Belum ada data. Isi dulu `absensi/daftar-siswa.csv`, lalu jalankan workflow secara manual (Actions → Rekap Absensi → Run workflow).
+**Keterangan:** ✅ hadir (terverifikasi) · 🕓 menunggu verifikasi · 📝 izin/sakit · – belum absen
+
+| No | Nama | Kelas | M1 | M2 | M3 | M4 | M5 | M6 | M7 | M8 | M9 | M10 | M11 | M12 | Hadir | % |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | Contoh Siswa Satu | XI PPLG 1 | – | – | – | – | – | – | – | – | – | – | – | – | 0 | 0% |
+| 2 | Contoh Siswa Dua | XI PPLG 1 | – | – | – | – | – | – | – | – | – | – | – | – | 0 | 0% |
+
+> ⚠️ Akun berikut mengirim absensi tetapi belum terdaftar di `absensi/daftar-siswa.csv`: @askiansyahaska-droid
