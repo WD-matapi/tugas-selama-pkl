@@ -1,0 +1,100 @@
+name: "📝 Absensi Mingguan"
+description: Lapor kehadiran & progres tugas Laravel minggu ini (wajib setiap minggu)
+title: "[Absensi] Nama - Minggu X"
+labels: ["absensi"]
+assignees: ["aktivitasRudi"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Absensi Mingguan Tugas Laravel PKL
+        - Isi **1 form per minggu**. Batas: **Minggu pukul 23.59 WIB**.
+        - Absensi dinyatakan sah setelah guru memberi label **terverifikasi**.
+        - Pastikan akun GitHub kamu sudah terdaftar di `absensi/daftar-siswa.csv`.
+  - type: input
+    id: nama
+    attributes:
+      label: Nama Lengkap
+      placeholder: "Budi Santoso"
+    validations:
+      required: true
+  - type: input
+    id: kelas
+    attributes:
+      label: Kelas
+      placeholder: "XI PPLG 1"
+    validations:
+      required: true
+  - type: dropdown
+    id: minggu
+    attributes:
+      label: Pilih Minggu
+      options:
+        - Minggu 1
+        - Minggu 2
+        - Minggu 3
+        - Minggu 4
+        - Minggu 5
+        - Minggu 6
+        - Minggu 7
+        - Minggu 8
+        - Minggu 9
+        - Minggu 10
+        - Minggu 11
+        - Minggu 12
+    validations:
+      required: true
+  - type: dropdown
+    id: status
+    attributes:
+      label: Status Kehadiran
+      options:
+        - Mengerjakan tugas
+        - Konsultasi / bimbingan dengan guru
+        - Ada kendala (belum bisa mengerjakan)
+        - Izin / Sakit
+    validations:
+      required: true
+  - type: dropdown
+    id: tugas
+    attributes:
+      label: Tugas yang Dikerjakan Minggu Ini
+      options:
+        - Tugas 01 - Setup & Routing
+        - Tugas 02 - Blade
+        - Tugas 03 - Migration & Model
+        - Tugas 04 - CRUD
+        - Tugas 05 - Validasi
+        - Tugas 06 - Relasi
+        - Tugas 07 - Autentikasi
+        - Tugas 08 - Middleware & Role
+        - Tugas 09 - Upload File
+        - Tugas 10 - REST API
+        - Proyek Akhir
+        - Tidak ada (izin/sakit)
+    validations:
+      required: true
+  - type: input
+    id: bukti
+    attributes:
+      label: Link Bukti (repo / commit / PR)
+      description: Wajib bila status "Mengerjakan tugas". Contoh https://github.com/username/laravel-pkl-budi/commit/abc123
+  - type: textarea
+    id: ringkasan
+    attributes:
+      label: Ringkasan Pekerjaan (2-5 kalimat)
+      placeholder: "Minggu ini saya membuat migration dan model barang..."
+    validations:
+      required: true
+  - type: textarea
+    id: kendala
+    attributes:
+      label: Kendala / Pertanyaan untuk Guru
+      description: Kosongkan bila tidak ada.
+  - type: checkboxes
+    id: pernyataan
+    attributes:
+      label: Pernyataan
+      options:
+        - label: Saya mengerjakan tugas ini sendiri dan data di atas benar.
+          required: true

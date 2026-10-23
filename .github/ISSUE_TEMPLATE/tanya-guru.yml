@@ -1,0 +1,53 @@
+name: "❓ Tanya Guru / Lapor Kendala"
+description: Bertanya atau melaporkan error saat mengerjakan tugas
+title: "[Tanya] Tugas XX - ringkasan masalah"
+labels: ["tanya-guru"]
+assignees: ["aktivitasRudi"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Guru akan merespons maksimal **1x24 jam hari kerja**. Siswa lain juga boleh membantu menjawab di kolom komentar.
+  - type: dropdown
+    id: tugas
+    attributes:
+      label: Terkait Tugas
+      options:
+        - Tugas 01
+        - Tugas 02
+        - Tugas 03
+        - Tugas 04
+        - Tugas 05
+        - Tugas 06
+        - Tugas 07
+        - Tugas 08
+        - Tugas 09
+        - Tugas 10
+        - Proyek Akhir
+        - Umum / lainnya
+    validations:
+      required: true
+  - type: textarea
+    id: masalah
+    attributes:
+      label: Apa masalahnya?
+      description: Jelaskan apa yang ingin dicapai dan apa yang terjadi.
+    validations:
+      required: true
+  - type: textarea
+    id: error
+    attributes:
+      label: Pesan Error / Kode
+      description: Tempel pesan error dan potongan kode terkait (jangan tempel isi `.env`!).
+      render: shell
+  - type: textarea
+    id: sudah
+    attributes:
+      label: Yang Sudah Dicoba
+      placeholder: "Sudah baca dokumentasi, sudah php artisan optimize:clear, ..."
+    validations:
+      required: true
+  - type: input
+    id: link
+    attributes:
+      label: Link Repo / Commit

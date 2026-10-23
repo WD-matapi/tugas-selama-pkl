@@ -1,0 +1,23 @@
+name: Konfirmasi Otomatis
+on:
+  issues:
+    types: [opened]
+permissions:
+  issues: write
+jobs:
+  balas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            let msg = null;
+            if (issue.title.startsWith('[Absensi]')) {
+              msg = `Halo @${issue.user.login} 👋\n\nAbsensi kamu sudah **diterima** dan berstatus **menunggu verifikasi** guru. Rekap bisa dilihat di [REKAP-ABSENSI.md](../blob/main/REKAP-ABSENSI.md).\n\n_Catatan: pastikan link bukti dapat dibuka (repo tidak private)._`;
+            } else if (issue.title.startsWith('[Tanya]')) {
+              msg = `Halo @${issue.user.login} 👋\n\nPertanyaanmu sudah masuk. Guru akan merespons maksimal **1x24 jam hari kerja**. Sambil menunggu, coba cek dokumentasi Laravel dan jalankan \`php artisan optimize:clear\`. Teman lain juga boleh ikut membantu di komentar. 🙌`;
+            }
+            if (msg) {
+              await github.rest.issues.createComment({ ...context.repo, issue_number: issue.number, body: msg });
+            }

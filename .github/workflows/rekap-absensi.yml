@@ -1,0 +1,97 @@
+name: Rekap Absensi
+on:
+  issues:
+    types: [opened, edited, labeled, unlabeled, closed, reopened]
+  schedule:
+    - cron: '0 17 * * 0'   # Senin 00:00 WIB
+  workflow_dispatch:
+permissions:
+  contents: write
+  issues: read
+concurrency:
+  group: rekap-absensi
+  cancel-in-progress: false
+jobs:
+  rekap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const TOTAL = 12;
+
+            // --- baca daftar siswa ---
+            const rows = fs.readFileSync('absensi/daftar-siswa.csv', 'utf8')
+              .split(/\r?\n/).slice(1).filter(l => l.trim());
+            const siswa = rows.map(l => {
+              const [nama, kelas, gh, tempat] = l.split(',').map(s => (s || '').trim());
+              return { nama, kelas, gh: (gh || '').toLowerCase(), tempat };
+            });
+            const known = new Set(siswa.map(s => s.gh));
+
+            // --- ambil semua issue absensi ---
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              ...context.repo, state: 'all', per_page: 100
+            });
+
+            // data[user][minggu] = {status, verified}
+            const data = {};
+            const unknownUsers = new Set();
+            for (const is of issues) {
+              if (is.pull_request) continue;
+              const names = is.labels.map(l => (typeof l === 'string' ? l : l.name));
+              if (!(is.title.startsWith('[Absensi]') || names.includes('absensi'))) continue;
+              if (names.includes('ditolak')) continue;
+
+              const body = is.body || '';
+              const mm = body.match(/### Pilih Minggu\s+Minggu (\d+)/i);
+              const ss = body.match(/### Status Kehadiran\s+([^\r\n]+)/i);
+              if (!mm || !ss) continue;
+
+              const week = parseInt(mm[1], 10);
+              const user = is.user.login.toLowerCase();
+              const status = ss[1].trim();
+              const verified = names.includes('terverifikasi');
+
+              if (!known.has(user)) unknownUsers.add(is.user.login);
+              data[user] = data[user] || {};
+              const prev = data[user][week];
+              // verified menang atas pending
+              if (!prev || (verified && !prev.verified)) data[user][week] = { status, verified };
+            }
+
+            const icon = (c) => {
+              if (!c) return '–';
+              if (!c.verified) return '🕓';
+              if (/izin/i.test(c.status)) return '📝';
+              return '✅';
+            };
+            const isHadir = (c) => c && c.verified && !/izin/i.test(c.status);
+
+            // --- bangun tabel ---
+            const head = ['No', 'Nama', 'Kelas', ...Array.from({ length: TOTAL }, (_, i) => `M${i + 1}`), 'Hadir', '%'];
+            let md = `# 📊 Rekap Absensi Tugas Laravel PKL\n\n`;
+            md += `_Diperbarui otomatis: ${new Date().toLocaleDateString('id-ID', { timeZone: 'Asia/Jakarta', day: 'numeric', month: 'long', year: 'numeric' })}_\n\n`;
+            md += `**Keterangan:** ✅ hadir (terverifikasi) · 🕓 menunggu verifikasi · 📝 izin/sakit · – belum absen\n\n`;
+            md += `| ${head.join(' | ')} |\n|${head.map(() => '---').join('|')}|\n`;
+
+            siswa.forEach((s, i) => {
+              const d = data[s.gh] || {};
+              const cells = Array.from({ length: TOTAL }, (_, w) => icon(d[w + 1]));
+              const hadir = Array.from({ length: TOTAL }, (_, w) => d[w + 1]).filter(isHadir).length;
+              const pct = Math.round((hadir / TOTAL) * 100);
+              md += `| ${i + 1} | ${s.nama} | ${s.kelas} | ${cells.join(' | ')} | ${hadir} | ${pct}% |\n`;
+            });
+
+            if (unknownUsers.size) {
+              md += `\n> ⚠️ Akun berikut mengirim absensi tetapi belum terdaftar di \`absensi/daftar-siswa.csv\`: ${[...unknownUsers].map(u => '@' + u).join(', ')}\n`;
+            }
+            fs.writeFileSync('REKAP-ABSENSI.md', md);
+      - name: Commit rekap
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add REKAP-ABSENSI.md
+          git diff --cached --quiet || (git commit -m "chore: update rekap absensi" && git push)
