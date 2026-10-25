@@ -1,6 +1,6 @@
 # 📊 Rekap Absensi Tugas Laravel PKL
 
-_Diperbarui otomatis: 23 Oktober 2026_
+_Diperbarui otomatis: 26 Oktober 2026_
 
 **Keterangan:** ✅ hadir (terverifikasi) · 🕓 menunggu verifikasi · 📝 izin/sakit · – belum absen
 
